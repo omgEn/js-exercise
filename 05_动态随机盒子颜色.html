@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>生成随机数字盒子</title>
+</head>
+<body>
+	<input type="text" placeholder="行">
+	<input type="text" placeholder="列">
+	<a href="#" id="btn">生成</a>
+	<div id="box"></div>
+<script type="text/javascript">
+window.onload = function() {
+//随机单元格颜色表格,根据页面输入确定行数和列数,每个单元格里面是一个随机100以内的整数
+	function randomTwo(){
+		return Math.floor(Math.random()*100);
+	}
+	function randomRGB() {
+	//生成6个随机数0-15
+		var arr = new Array();//初始的length是0吗
+		//var arr[] = null;//有这个写法吗 错误
+		//var arr = [];//正确
+		var str = "#";
+		for (var i=0;i<6;i++) {
+			arr[i] = (Math.floor(Math.random()*16)).toString(16);
+			str += arr[i];
+		}
+		return str;
+	}
+	//行
+	var row = document.getElementsByTagName('input')[0];
+	//列
+	var col = document.getElementsByTagName('input')[1];
+	var btn = document.getElementById('btn');
+	var box = document.getElementById('box');
+
+	btn.onclick =function() {
+		var rowNum = Number(row.value);
+		var colNum = Number(col.value);
+		var str = "<table>";
+		for(var i=0;i<rowNum;i++) {
+			str+="<tr>"
+			for (var j=0;j<colNum;j++) {
+				str+="<td>"+randomTwo()+"</td>";
+				if(j==colNum-1) {
+					str+="<td><a href='#' class='remove'>删除<a></td>";
+				}
+			}
+			str+="</tr>"
+		}
+		str+="</table>";
+		box.innerHTML = str;
+		var td = document.getElementsByTagName('td');
+		for(var i=0;i<td.length;i++) {
+			td[i].style.background = randomRGB();
+		}
+
+		var table = document.getElementsByTagName('table')[0];
+		//写在点击外部的时候console.log(table);undefined，
+		//不是onclick遍历完了往下走，而是点击时候才进去
+		var tr = document.getElementsByTagName('tr');
+		var aBtn = document.getElementsByClassName('remove');
+		for(var i=0;i<aBtn.length;i++) {
+			aBtn[i].style.background = '#fff';
+			aBtn[i].onclick =function() {
+				//nodeObject.removeChild(node);
+				this.parentNode.parentNode.remove();
+				//table.tbody.removeChild(this.parentNode.parentNode.parentNode);
+				//删除了全部
+			}
+		}	
+	}
+		
+	
+	//onclick是先执行，当点击的时候在进去函数内部，
+}
+</script>
+</body>
+</html>

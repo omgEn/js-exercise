@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<input type="text" id="t" />
+		<input type="button" value="请留言" id="btn"/>
+		<ul id="con"></ul>
+	</body>
+</html>
+
+<script>
+	function $id(id){
+		return document.getElementById(id)
+	}
+	//输入内容，点击留言，创建一个  li ，新留言内容 置顶 
+	// 超过5条留言  删除第一条...
+	var oUl = $id("con");
+	var num = 5;
+	$id("btn").onclick = function(){
+		var txt = $id("t").value;
+		var oli = document.createElement("li");
+		oli.innerHTML = txt;
+		oUl.insertBefore( oli , oUl.children[0] );
+		//当下标为5的li存在  就删除下标为5的li
+		if( oUl.children[num] ){
+			 oUl.children[num].remove();
+		}
+		$id("t").value = "";
+	}
+</script>

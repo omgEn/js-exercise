@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<script type="text/javascript">
+		// 辗转相除法
+		// 两个整数中最大的公约数等于较小那个数和两个数相除的余数最大公约数
+		// 就是先比较两个数的大小,取较小那个数作为除数.两数相除,如果余数为0,除数最大公约数;两数相除不为0,除数和余数继续进行相除
+		// 90和15 90/15=6 余0 最大的公约数就是15
+		// 30和8 30/8=3 余6
+		// 8/6=1 余2
+		// 6/2=3 最大公约数就是2
+		function gcd(x,y){
+			if(x>y){
+				var max = x;
+				var min = y;
+			}else{
+				var max = y;
+				var min = x;
+			}
+			if(max % min == 0){
+				return min;
+			}else{
+				return gcd(min,max%min)
+
+			}
+		}
+		console.log(gcd(90,15));
+		console.log(gcd(30,8))
+	</script>
+</body>
+</html>

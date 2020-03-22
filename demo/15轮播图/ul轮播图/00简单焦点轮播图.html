@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>简单焦点轮播图</title>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+			list-style: none;
+			border: 0;
+		}
+		/* 500*200 */
+		.all {
+			width: 500px;
+			height: 200px;
+			padding: 7px;
+			border: 1px solid #ccc;
+			margin: 100px auto;
+			position: relative;
+		}
+		.screen {
+			width: 500px;
+			height: 200px;
+			overflow: hidden;
+			position: relative;
+		}
+		.screen li {
+			width: 500px;
+			height: 200px;
+			overflow: hidden;
+			float: left;
+		}
+		.screen ul {/*把全部的li放在一行*/
+			position: absolute;
+			left: 0;
+			top: 0;
+			width: 3000px;
+		}
+		.all ol {
+			position: absolute;
+			right: 10px;
+			bottom: 10px;
+			line-height: 20px;
+			text-align: center;
+		}
+		.all ol li {
+			float: left;
+			width: 20px;
+			height: 20px;
+			background: #fff;
+			border: 1px solid #ccc;
+			margin-left: 10px;
+			cursor: pointer;
+		}
+		.all ol li.current {
+			background: yellow;
+		}
+		#arr {/*箭头初始为隐藏，鼠标移入显示*/
+			display: none;
+		}
+		#arr span{ 
+			width:40px; 
+			height:40px; 
+			position:absolute; 
+			left:5px; 
+			top:50%; 
+			margin-top:-20px; 
+			background:#000; 
+			cursor:pointer;
+			 line-height:40px; 
+			 text-align:center; 
+			 font-weight:bold; 
+			 font-family:'黑体'; 
+			 font-size:30px; 
+			 color:#fff; opacity:0.3; 
+			 border:1px solid #fff;
+			}
+		#arr #right{
+			right:5px; 
+			left:auto;
+		}
+
+	</style>
+</head>
+<body>
+	<div class="all" id="all">
+		<div class="screen" id="screen">
+			<ul>
+				<li><img src="images/1.jpg" alt=""></li>
+				<li><img src="images/2.jpg" alt=""></li>
+				<li><img src="images/3.jpg" alt=""></li>
+				<li><img src="images/4.jpg" alt=""></li>
+				<li><img src="images/5.jpg" alt=""></li>
+			</ul>
+			<ol>
+			<!-- 	<li>1</li>
+				<li>2</li>
+				<li>3</li>
+				<li>4</li>
+				<li>5</li> -->
+			</ol>
+			<div id="arr">
+				<span id="left"><</span>
+				<span id="right">></span>
+			</div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+	//需求：我们鼠标放到ol的li上，指定图片播放，
+	//1 克隆图片加入到ul中？？？
+	//2 动态生成li？？？
+	//3 焦点悬停动画
+	//4 加定时器
+
+	var all = document.getElementById('all');//外盒子
+	var screen = document.getElementById('screen');//内盒子
+	var ul = screen.children[0];//ul图片
+	var liArr = ul.children;
+	var ol = screen.children[1];//ol圆圈
+
+	var firstLi = ul.children[0];
+	var arr = document.getElementById('arr');//箭头
+	var arrLeft = arr.children[0];
+	var arrRight = arr.children[1];
+	//1 克隆图片加入到ul中 //防止留白问题
+	var newLi = firstLi.cloneNode(true);//深复制
+	ul.appendChild(newLi);//克隆第一张图片到最后
+	//此时的li有6个
+
+	//2 动态生成ol的li  减少html的渲染吗
+	console.log(liArr)
+	for (var i = 0; i < liArr.length-1; i++) {//??
+		var li = document.createElement('li');
+		li.innerHTML = i+1;
+		ol.appendChild(li);
+		console.log(i);
+	};
+	//3 焦点悬停动画
+	//小方块的颜色切换
+	var olli = ol.children;
+	olli[0].className = "current";
+	for (var i = 0; i < olli.length; i++) {
+		olli[i].index = i;
+		olli[i].onmouseover = function() {
+			for (var i = 0; i < olli.length; i++) {
+				olli[i].className = "";
+			};
+			this.className = "current";
+			key = square = this.index;
+			//图片转换
+			animate(ul,-this*liArr[0].offsetWidth);
+		}
+	};
+	//4 加定时器
+	var timer = null;
+	var key = 0;//图片
+	var square = 0;//小方块
+	timer = setInterval(autoPlay,1000);
+	function autoPlay() {
+		key++;
+		square++;
+		if (key>5) {
+			key = 1;
+			ul.style.left = 0;
+		}
+		animate(ul,-key*liArr[0].offsetWidth);
+
+		square = square>olli.length-1?0:square;
+		for (var i = 0; i < olli.length; i++) {
+			olli[i].className = "";
+		};
+		olli[square].className = "current";
+	}
+
+	//清除定时器
+	all.onmouseover = function() {
+		arr.style.display = "block";
+		clearInterval(timer);
+	}
+	all.onmouseout = function() {
+		arr.style.display = "none";
+		timer = setInterval(autoPlay,1000);
+	}
+	arrRight.onclick = function() {
+		autoPlay();
+	}
+	arrLeft.onclick = function() {
+		key--;
+		square--;
+		if(key<0) {
+			key = 4;
+			ul.style.left = -5*liArr[0].offsetWidth+'px';
+		}
+		animate(ul,-key*liArr[0].offsetWidth);
+		square = square<0?4:square;
+		for (var i = 0; i < olli.length; i++) {
+			olli[i].className = "";
+		};
+		olli[square].className = "current";
+	}
+	function animate(dom,target) {
+		clearInterval(dom.timer);
+		var speed = dom.offsetLeft<target?15:-15;
+		dom.timer = setInterval(function(){
+			var result = target-dom.offsetLeft;
+			dom.style.left = dom.offsetLeft+speed+'px';
+			if(Math.abs(result)<=10) {
+				clearInterval(dom.timer);
+				dom.style.left = target+'px';
+			}
+		},10)
+	}
+</script>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<style type="text/css">
+		div{
+			width: 300px;
+			height: 300px;
+			border: 2px solid saddlebrown;
+			text-align: center;
+			line-height: 300px;
+			font-size: 60px;
+		}
+		input{
+			width:100px;
+			height: 35px;
+		}
+	</style>
+	<body>
+		<input type="button" id="btn" value="开始"/><br/><br/><br/>
+		<div id="box"></div>
+		<img src="image/1.jpg" alt="" id="m1"/><br/><br/><br/><br/><br/><br/><br/><br/><br/>		
+	</body>
+</html>
+
+<script type="text/javascript">
+    function $id(id){
+        return document.getElementById(id)
+    };
+    function rand(min,max){
+    	//0-500
+    	return Math.floor(Math.random()*(max-min+1)+min);    	
+        
+    }
+	var arrName = [1,2,3,4,5,6,7,8,9,10,12,11]; 
+	var flag = true;//假设值为true时  启动定时器  开始--结束
+	var timer = null;
+	$id("btn").onclick = function(){
+		if( flag ){
+			timer = setInterval(function(){
+				var index = rand(0,11);
+				$id("box").innerHTML = arrName[index];
+				$id("m1").src = "image/"+(index+1)+".jpg";
+			},100)
+			this.value = "结束";
+		}else{
+			clearInterval(timer);
+			this.value = "开始";
+		}
+		flag = !flag;
+	}
+</script>

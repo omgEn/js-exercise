@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<input type="checkbox" name="qx"/>全选<br>
+		<input type="checkbox" name="fx"/>反选<br>
+		<input type="checkbox" name="h"/>
+		<input type="checkbox" name="h"/>
+		<input type="checkbox" name="h"/>
+		<input type="checkbox" name="h"/>
+		<input type="checkbox" name="h"/>
+		<input type="checkbox" name="h"/>
+		<input type="checkbox" name="h"/>
+	</body>
+</html>
+<script type="text/javascript">
+
+	//让 name 为 h的复选框的checked值 和 当前点击的复选框的checked值保持一致
+	//将当前点击的复选框的checked值 赋值给 后面每一个要操作的复选框
+	var qx = document.getElementsByName("qx")[0];
+	var cks = document.getElementsByName("h");
+	qx.onclick = function(){
+		//alert( this.checked ); 
+		for( var i = 0 ; i < cks.length ; i++ ){
+			cks[i].checked =  this.checked;
+		}
+	}
+	//反选   
+	// 遍历所有复选框，判断哪一个复选框是被选中的，如果被选中就清除checked值
+	//  否则 就设置checked值
+	var fx = document.getElementsByName("fx")[0];
+	fx.onclick = function(){
+		for( var i = 0 ; i < cks.length ; i++ ){
+			if( cks[i].checked ){ //是被选中的条件
+				cks[i].checked = false;
+			}else{
+				cks[i].checked = true;
+			}
+		}
+	}
+</script>

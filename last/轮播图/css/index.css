@@ -1,0 +1,65 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+.box {
+    width: 590px;
+    height: 504px;
+    margin: 100px auto;
+    position: relative;
+    overflow: hidden;
+}
+.img-container {
+    width: 590px;
+    height: 470px;
+}
+.img-container img{
+    display:block;
+    width:100%;
+    height:100%;
+}
+ul {
+    overflow: hidden;
+}
+li {
+    list-style: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 590px;
+    height: 470px;
+}
+.point-and-arrow {
+    text-align: center;
+    padding-top: 10px;
+}
+.point {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    background: url(../images/icon.png) no-repeat -24px -780px;
+   /* background: url(../images/icon.png) no-repeat -24px -770px;*/
+    text-indent: -99999px;
+    margin: 0 5px;
+    cursor: pointer;
+   /* display: block;*/
+}
+.point.now {
+    background-position: -24px -760px;
+   /* background-position: -0px -770px;*/
+}
+.prev,.next {
+    position: absolute;
+    top: 40%;
+    width: 30px;
+    height: 35px;
+    background: url(../images/icon.png) no-repeat;
+    opacity: 0
+}
+.prev {
+    left: 10px;
+}
+.next {
+    right: 10px;
+    background-position: 0 -44px;
+}

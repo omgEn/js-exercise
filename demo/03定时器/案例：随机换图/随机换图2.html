@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>随机换图</title>
+</head>
+<body>
+	<img src="1m.jpg" alt="">
+<script type="text/javascript">
+//用一个循环定时器切换img的地址
+//setInvalter  clearInterval
+//setTimeout  clearTimeour
+	var imgSrc = document.getElementsByTagName('img')[0];
+	// var timer = setInterval(change,4000);
+	// //直接这么写timer会执行吗
+	// function change() {
+	// 	for(var i=1;i<5;i++) {
+	// 		imgSrc.src = i+"m.jpg";
+	// 	}
+	// }
+	// setInterval(function(){
+	// 	for(var i=1;i<5;i++){
+	// 		imgSrc.src = i+"m.jpg";
+	// 	}
+	// },2000)//直接从第一次调到最后一个
+	//他是2s循环一次，而不是在for里面2s循环一次
+	var index =0;
+	setInterval(function(){
+		if(index==4){
+			index=0;
+		}
+		index++;
+		imgSrc.src = index+"m.jpg";
+	},1000)
+
+</script>
+</body>
+</html>

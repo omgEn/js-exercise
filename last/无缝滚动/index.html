@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<style>
+		*{
+			margin:0;
+			padding:0;
+		}
+		#container{
+			height:170px;
+			width:500px;
+			background:teal;
+			margin:100px;
+			overflow:hidden;
+			position:relative;
+		}
+		#box{
+			position:absolute;
+			left:0;
+			top:0;
+		}
+		ul{
+			list-style:none;	
+		}
+	</style>
+	<body>
+		<div id="container">
+			<div id="box">
+				<ul>
+					<li>习近平给全国涉农高校的书记校长和专家代表的回信</li>
+					<li>英国政坛因这事儿吵得不可开交</li>
+					<li>"月球漫步"视频走红 印度紧急修路</li>
+					<li>袁隆平:超级稻亩产或即将破1200公斤大关</li>
+					<li>多地查获走私冻肉100多吨</li>
+					<li>官员心得抄网上内容被问责</li>
+					<li>殡仪馆撂倒一群官 "丧葬腐败"有多严重?</li>
+					<li>党报批香港记协的"新闻自由":多少罪恶假汝之名</li>
+					<li>侠客岛：最近英国政坛因为这事儿吵得不可开交</li>
+					<li>德总理默克尔今起访问中国 系就任以来第12次访华</li>
+					<li>湖北一医院书记"四讲四有"心得抄网上内容 被问责</li>
+					<li>统计局局长:增加猪肉水果的生产供应 保证物价稳定</li>
+					<li>暖新闻 这张医生席地而坐缩成一团的照片火了</li>
+				</ul>
+				<ul>
+					<li>习近平给全国涉农高校的书记校长和专家代表的回信</li>
+					<li>英国政坛因这事儿吵得不可开交</li>
+					<li>"月球漫步"视频走红 印度紧急修路</li>
+					<li>袁隆平:超级稻亩产或即将破1200公斤大关</li>
+					<li>多地查获走私冻肉100多吨</li>
+					<li>官员心得抄网上内容被问责</li>
+					<li>殡仪馆撂倒一群官 "丧葬腐败"有多严重?</li>
+					<li>党报批香港记协的"新闻自由":多少罪恶假汝之名</li>
+					<li>侠客岛：最近英国政坛因为这事儿吵得不可开交</li>
+					<li>德总理默克尔今起访问中国 系就任以来第12次访华</li>
+					<li>湖北一医院书记"四讲四有"心得抄网上内容 被问责</li>
+					<li>统计局局长:增加猪肉水果的生产供应 保证物价稳定</li>
+					<li>暖新闻 这张医生席地而坐缩成一团的照片火了</li>
+				</ul>
+			</div>
+		</div>
+	</body>
+<script>
+	//需求:实现文字无缝滚动,每次只能显示两行文字,显示停留2秒,2秒到了以后通过动画滚动到下一个两行
+//往上滚动，每次滚动两行，到底了又从前面开始滚动，
+	var ul = document.getElementsByTagName('ul');
+	var li = document.getElementsByTagName('li');
+	var wrap = document.getElementById('container');
+	var box = document.getElementById('box');
+	//var height = wrap.offsetHeight;
+	//console.log(ul.children[1].offsetHeight);
+	var timer = null;
+	var num = 0;
+	var timeout = null;
+
+	function autoPlay() {
+		if(num%42==0&&num!=0){
+			///console.log(1);
+			//clearInterval(timer);
+			//var timeout = setTimeout(autoPlay,20);
+			//clearTimeout(timeout);
+
+			num--;
+			console.log(1);
+			setTimeout(timer,500);//过20ms执行autoplay；
+			console.log(2);
+			//return;
+
+		}
+		//timer = setInterval(autoPlay,20);
+		//timer = setInterval(autoPlay, 20);
+		num--;
+		box.style.top = num + "px";
+		if(num<=-box.children[0].offsetHeight) {
+			console.log(1);
+			num = 0;
+		}
+	}
+	 wrap.onmouseenter = function() {
+	 	timer = setInterval(autoPlay,30);
+
+		//timer = setTimeout(autoPlay,20);
+		console.log(1);
+	}
+	wrap.onmouseleave = function() {
+		clearInterval(timer);
+		//clearTimeout(timer);
+	}
+	
+</script>
+</html>
+ 
+

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<style type="text/css">
+		div{
+			width: 300px;
+			height: 300px;
+			border: 2px solid saddlebrown;
+			text-align: center;
+			line-height: 300px;
+			font-size: 60px;
+		}
+		input{
+			width:100px;
+			height: 35px;
+		}
+	</style>
+	<body>
+		<input type="button" id="btn" value="开始"/><br/><br/><br/>
+		<div id="box"></div>
+		<img src="image/1.jpg" alt="" id="m1"/><br/><br/><br/><br/><br/><br/><br/><br/><br/>		
+	</body>
+</html>
+<script type="text/javascript">
+
+	var btn = document.getElementById('btn');
+	var box = document.getElementById('box');
+	var img = document.getElementById('m1');
+	//console.log(btn,box,img);
+	btn.onclick = function() {
+
+		if(btn.value=="开始"){
+			btn.value="结束";
+			//对timer使用了var下面clearInterval就无效
+			timer = setInterval(function(){
+				var result = rand(1,12);
+				box.innerText = result;
+				img.src = "image/"+result+".jpg";
+			},100);
+		} else {
+			btn.value="开始";
+			clearInterval(timer);
+		}
+		
+	}
+	function select() {
+		
+	}
+
+function rand(min,max){
+	var choice = max-min+1;
+	return min+Math.floor(Math.random()*choice);
+}
+</script>

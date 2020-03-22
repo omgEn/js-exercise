@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<form action="ok.html">
+			用户名 ：  <input type="text" id="tname"/><span id="s1"></span><br>
+			密码   ：    <input type="text" id="tpwd"/><span id="s2"></span><br>
+			<input type="radio" name="sex"/>男
+			<input type="radio" name="sex"/>女<span id="s3"></span><br>
+			<input type="submit" value="提交"/>
+		</form>
+	</body>
+</html>
+<script src="./public.js"></script>
+<script type="text/javascript">
+	var oForm = document.querySelector("form");
+	oForm.onsubmit = function(){
+		//验证每一个表单项是否合法 都合法，返回true  否则返回false
+		if( /*flagName && flagPwd &&*/ checkSex() ){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	//验证性别
+	function checkSex(){
+		//var flagSex = true;//假设没有性别被选中
+		var ipts = document.getElementsByName("sex");
+		for( var i = 0 ; i < ipts.length ; i++ ){
+			if( ipts[i].checked ){//表示有性别被选中
+				return true;
+			}
+		}
+		$id("s3").innerHTML = "必选一项";
+		return false;// 没有性别被选中
+	}
+	//验证用户名  失去焦点时 如果用户名不合法  就在span中提示 
+	var flagName = null;
+	$id("tname").onblur = function(){
+		var str = this.value;
+		var reg = /^\w{3,6}$/;
+		if( reg.test(str) ){
+			$id("s1").innerHTML = "合法";
+			flagName = true;
+		}else{
+			$id("s1").innerHTML = "不合法";
+			flagName = false;
+		}
+	}
+	//验证密码
+	var flagPwd = null;
+	$id("tpwd").onblur = function(){
+		var str = this.value;
+		var reg = /^.{6,}$/;
+		if( reg.test(str) ){
+			$id("s2").innerHTML = "合法";
+			flagPwd = true;
+		}else{
+			$id("s2").innerHTML = "不合法";
+			flagPwd = false;
+		}
+	}
+	
+	
+</script>

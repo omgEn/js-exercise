@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>date-now</title>
+</head>
+<body>
+	<div id="box">
+		<img src="" alt="">
+		<img src="" alt="">
+		时
+		<img src="" alt="">
+		<img src="" alt="">
+		分
+		<img src="" alt="">
+		<img src="" alt="">
+		秒
+	</div>
+<script type="text/javascript">
+	
+	//console.log(hour,minute,second);//为啥是正常打印出来
+	//20 1 8
+	//打印在页面上
+	//console.log(typeof hour);//number
+	var box = document.getElementById('box');
+	var img = box.getElementsByTagName('img');
+	//初始化
+	//怎么封装一个对象或者函数存放
+	var date = new Date();//获取时间的方法
+	var hour = date.getHours()+"";
+	var minute = date.getMinutes()+"";
+	var second = date.getSeconds()+"";
+	show(hour,0);
+	show(minute,2);
+	show(second,4);
+
+	function show(time,index){
+		if(time.length!=2) {
+			img[index].src = "img/0.png";//必须要清楚不然是5
+			img[index+1].src = "img/"+time.charAt(0)+".png";
+		} else {
+			img[index].src = "img/"+time.charAt(0)+".png";
+			img[index+1].src = "img/"+time.charAt(1)+".png";
+		}
+	}
+
+	function getTime(){
+		//先获取当前的时间，
+		var date = new Date();//获取时间的方法
+		console.log(date);
+		//获得现在时间的时分秒
+		var hour = date.getHours()+"";
+		var minute = date.getMinutes()+"";
+		var second = date.getSeconds()+"";
+		show(hour,0);
+		show(minute,2);
+		show(second,4);
+	}
+
+	setInterval(getTime,1000);
+	// setInterval('show(hour,0)',1000);
+	// setInterval('show(minute,2)',1000);
+	// setInterval('show(second,4)',1000);
+	
+
+	// if(hour.length!=2) {
+	// 	img[1].src = "img/"+hour.charAt(0)+".png";
+	// }else {
+	// 	img[0].src = "img/"+hour.charAt(0)+".png";
+	// 	img[1].src = "img/"+hour.charAt(1)+".png";
+	// }
+	// if(minute!=2) {
+	// 	img[3].src = "img/"+minute.charAt(0)+".png";
+	// } else {
+	// 	img[2].src = "img/"+minute.charAt(0)+".png";
+	// 	img[3].src = "img/"+minute.charAt(1)+".png";
+	// }
+	// if(second!=2) {
+	// 	img[5].src = "img/"+second.charAt(0)+".png";
+	// } else {
+	// 	img[4].src = "img/"+second.charAt(0)+".png";
+	// 	img[5].src = "img/"+second.charAt(1)+".png";
+	// }
+	
+	
+</script>
+</body>
+</html>

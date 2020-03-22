@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style type="text/css">
+    #bookList{
+        background: lightBlue;
+        position: absolute;
+        top: 130px;
+        left: 50%;
+        margin-left:-450px;
+        width:auto;
+    }
+    #bookList table{
+        border-right:1px solid red;
+        border-bottom: 1px solid red;
+    }
+    #bookList table tbody tr td{
+        border-top: solid 1px red;
+        border-left: solid 1px red;
+        width: 160px;
+        text-align: center;
+    }
+    #bookList table thead tr th{
+        border-top: solid 1px red;
+        border-left: solid 1px red;
+        width: 160px;
+        text-align: center;
+    }
+    #bookList table tbody tr th{
+        cursor: pointer;
+    }
+    </style>
+    <script type="text/javascript">
+    /*
+    DOM操作、事件、数组、json遍历、对象排序
+    */
+    window.onload = function(){
+        function Grid(id){
+            this.table = document.getElementById(id);
+        }
+        Grid.prototype.init = function(data){
+            var thead = document.createElement('thead');
+            var tr = document.createElement('tr');
+            var ths = '<th id="name">名称</th><th id="size">尺寸</th><th id="category">分类</th><th id="desc">描述</th><th id="flag">标签</th>';
+            tr.innerHTML = ths;
+            thead.appendChild(tr);
+            this.table.appendChild(thead);
+            var tb = document.createElement('tbody');
+            this.table.appendChild(tb);
+            this.initData(data);
+            this.addEvent(data);
+        };
+        Grid.prototype.initData = function(data){
+            var tag = '';
+            for(var i=0;i<data.length;i++){
+                var item = data[i];
+                tag += '<tr><td>'+item.name+'</td><td>'+item.size+'</td><td>'+item.category+'</td><td>'+item.desc+'</td><td>'+item.flag+'</td></tr>';
+            }
+            var tb = document.getElementsByTagName('tbody')[0];
+            tb.innerHTML = tag;
+            this.table.appendChild(tb);
+        };
+        Grid.prototype.addEvent = function(data){
+            var ths = this.table.getElementsByTagName('th');
+            var that = this;
+            for(var i=0;i<ths.length;i++){
+                ths[i].onclick = function(){
+                    //排序功能
+                    that.reSort(data,this);
+                }
+            }
+        };
+        Grid.prototype.reSort = function(data,th){
+            var tb = this.table.getElementsByTagName('tbody')[0];
+            tb.innerHTML = '';
+            //重新排序数据
+            var fn = null;
+            if(th.sortFlag){
+                fn = this.sortRegular(th.id,1);
+                th.sortFlag = null;
+            }else{
+                fn = this.sortRegular(th.id,-1);
+                th.sortFlag = 1;
+            }
+            data.sort(fn);
+            this.initData(data);
+        };
+        Grid.prototype.sortRegular = function(sortName,flag){
+            return function(o1,o2){
+                var v1 = o1[sortName];
+                var v2 = o2[sortName];
+                if(v1 < v2){
+                    return -1*flag;
+                }else if(v1 > v2){
+                    return 1*flag;
+                }else{
+                    return 0;
+                }
+            }
+        }
+
+        /*
+        越女剑
+        飞雪连天射白鹿
+        笑书神侠倚碧鸳
+        */
+
+        var data = [{
+            name : '水浒传',
+            size : 123,
+            category : '文学',
+            desc : '经典中的经典',
+            flag : 1
+        },{
+            name : '西厢记',
+            size : 125,
+            category : '文学',
+            desc : '张生和崔莺莺的爱情故事',
+            flag : 6
+        },{
+            name : '射雕英雄传',
+            size : 173,
+            category : '文学',
+            desc : '辽宋夏金军阀混战',
+            flag : 19
+        },{
+            name : '基督山伯爵',
+            size : 13,
+            category : '文学',
+            desc : '复仇记',
+            flag : 23
+        }];
+
+        var grid = new Grid('myTable');
+        grid.init(data);
+    }
+
+
+    </script>
+</head>
+<body>
+    <div id="bookList">
+        <table id="myTable" cellspacing="0" cellpadding="0">
+        </table>
+    </div>
+</body>
+</html>

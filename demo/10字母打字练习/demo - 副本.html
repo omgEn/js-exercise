@@ -1,0 +1,98 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>打字游戏</title>
+        <!--引入animate.css动画库-->
+        <link rel="stylesheet" href="animate.css">
+        <style>
+            body{
+                margin: 0;
+                /*开启弹性布局，并让弹性布局中的子元素
+                水平居中对齐，垂直居中对齐*/
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                /*文字居中*/
+                text-align: center;
+                /*设置背景颜色的经像渐变*/
+                background: radial-gradient(circle,#444,#111,#000);
+            }
+            #char{
+                font-size: 400px;
+                color: lightgreen;
+                /*设置文字阴影*/
+                /*text-shadow: 水平位置 垂直位置 模糊距离 阴影颜色*/
+                /*位置可以为负值*/
+                text-shadow: 0 0 50px #666;
+            }
+            #result{
+                font-size: 20px;
+                color: #888;
+            }
+            /*找到id为char及类名为error的div元素*/
+            #char.error{
+                color: red;
+
+            }
+        </style>
+    </head>
+    <body>
+        <main>
+            <div id="char">A</div>
+            <div id="result">请在按键上按下屏幕上显示的字母</div>
+            <p></p>
+        </main>
+    </body>
+</html>
+
+<script>
+	function $id(id){
+        return document.getElementById(id)
+    }
+
+    function rand(min,max){
+        return Math.floor(Math.random()*(max-min+1)+min)
+    }
+	// 按键正确： "animated zoomIn";
+	// 按键错误： "animated shake error";
+    //页面加载  char中随机显示 A--Z之间的任意一个字符   65 --- 90
+    //在页面中显示A--Z之间的任意一个字符
+    var code = document.getElementById('char');
+    var charCode = String.fromCharCode(rand(65,90));
+    var countNum = 0;
+    var rightNum = 0;
+    var wrongNum = 0;
+    //console.log(charCode);
+    // console.log(code.innerText);//A
+    // console.log(code.nodeValue);//null
+    // console.log(code.innerHTML);///A
+    // console.log(String.fromCharCode(rand(64,90)));//S
+    document.onkeydown=function(e){
+        countNum++;
+        var event = window.event||e;
+        // console.log(event);
+        // console.log(event.key);//a
+        // console.log(event.keyCode);//65
+        if(event.key.toUpperCase()==code.innerText){
+            code.innerHTML= String.fromCharCode(rand(65,90));
+            code.className="animated zoomIn";
+            //code.className="";怎么让下一次点击时候也有动画
+            rightNum++;
+        } else{
+            code.className="animated shake error";
+            alert('输入错误，请重新输入');//为啥不是先抖动在弹框
+            //code.className="";
+            wrongNum++;
+        }
+        fn();
+        setTimeout(function(){
+            code.className="";
+        },500)
+    }
+
+    function fn(){
+        var p = document.getElementsByTagName('p')[0]
+        p.style.color="white";
+        p.innerHTML="正确"+rightNum+"个，错误"+wrongNum+"个，正确率"+((rightNum/countNum).toFixed(2)*100)+"%" ;
+    }
+</script>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+	
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>表格编辑和创建</title>
+		<style type="text/css">
+			#detail {
+				width: 120px;
+				height: 160px;
+				border: 1px solid #000;
+				display: none;
+				position: absolute;
+			}
+		</style>	
+	</head>
+	<body>
+		姓名：<input type="text"  size=60/><br>
+		年龄：<input type="text"  size=60/><br>
+		学号：<input type="text"  size=60/><br>
+		手机：<input type="text"  size=60/><br>
+		备注：<input type="text"  size=60/><br>
+		<button id="saveBtn">保存</button>
+		<table id="tab" border=1>
+			<tr>
+				<th>姓名</th><th>年龄</th><th>学号</th><th>手机</th><th>备注</th><th>操作</th>
+			</tr>
+			<tr>
+				<td>张三</td><td>24</td><td>200409878909</td><td>17087654321</td><td>9月23日入学</td><td><a href="javascript:;">删除</a> <a href="javascript:;">详细信息</a></td>
+			</tr>			
+		<table>	
+		<div id="detail"></div>	
+	</body>	
+</html>
+<script> 
+	//需求:
+	//点击保存按钮,把用户填写的信息存入表格行中+
+	var inp = document.getElementsByTagName('input');
+	console.log(inp);
+	var tab = document.getElementById('tab');
+	var tbody = tab.children[0];
+	var saveBtn = document.getElementById('saveBtn');
+	var tr = tbody.children[1];//第二行tr
+	//可以一次性嵌套吗
+	var lastTd = tr.children[tr.children.length-1];
+	lastTd.children[0].className = "delete";
+	lastTd.children[1].className = "detail";
+	var aAll = {};
+	saveBtn.onclick = function() {
+		var newTr = tr.cloneNode(true);
+		for (var i = 0; i < 5; i++) {
+			newTr.children[i].innerHTML = inp[i].value;
+			console.log(inp[i].value);
+		};
+		tbody.appendChild(newTr);
+	}
+	//点击事件全部委托到tab
+	tab.addEventListener('click',function(e) {
+		var e = e || window.event;
+		var target = e.target||e.srcElement;
+		//点击每行的删除按钮可以删除当前行的内容
+		if(target.className == "delete") {
+			target.parentNode.parentNode.remove();
+		}
+		//点击每行中的详细信息可以查看该生的手机号码
+		else if(target.className == "detail") {
+			e.stopPropagation();
+			detail.style.display = "block";
+			detail.style.left = e.pageX + "px";
+			detail.style.top = e.pageY + "px";
+			detail.innerHTML = target.parentNode.parentNode.children[3].innerHTML;
+		}//点击学员具体信息可以进行修改
+		else  {
+			var opt = document.createElement('input');
+			opt.style = "text";
+			opt.value = target.innerHTML;
+			target.innerHTML = "";
+			target.appendChild(opt);
+			opt.focus();
+			opt.onblur = function() {
+				target.innerHTML = opt.value;
+			}
+		}
+	})
+	document.addEventListener('click',function(){
+		detail.style.display = "none";
+	})
+	
+
+	
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>div轮播图</title>
+    <link rel="stylesheet" href="css/index.css"/>
+</head>
+<body>
+    <div class="box" id="box">
+        <div class="img-container">
+            <ul>
+                <li><a href="#"><img src="images/1.jpg"/></a></li>
+                <li><a href="#"><img src="images/2.jpg"/></a></li>
+                <li><a href="#"><img src="images/3.jpg"/></a></li>
+                <li><a href="#"><img src="images/4.jpg"/></a></li>
+                <li><a href="#"><img src="images/5.jpg"/></a></li>
+                <li><a href="#"><img src="images/6.jpg"/></a></li>
+                <li><a href="#"><img src="images/7.jpg"/></a></li>
+                <li><a href="#"><img src="images/8.jpg"/></a></li>
+            </ul>
+        </div>
+        <div class="point-and-arrow">       
+            <span class="prev" id="prev"></span>
+            <span class="next" id="next"></span>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="js/public.js"></script>
+<script type="text/javascript">
+    //共8章图片，全部占一个位置，div轮播 590*470
+    //var box = getElements('box');//总盒子
+    var box = document.getElementById('box');
+    var img = box.children[0];//图片盒子
+    var point = box.children[1];//小圆圈父级
+    var prev = document.getElementById('prev');
+    var next = document.getElementById('next');
+    //var liArr = img.children[0].children;//全部图片？？？
+    var liArr = document.getElementsByTagName('li');//全部图片
+    var width = liArr[0].offsetWidth;
+    var index = 0;
+     //点亮小圆点
+    function light() {
+        var spanArr = point.children;
+        for (var i = 0; i < spanArr.length-2; i++) {
+           spanArr[i].className = "point";
+        };
+        spanArr[index].className = "point now";
+    }
+    //动态生成小圆圈
+    var content = document.createDocumentFragment();
+    for (var i = 0; i < liArr.length; i++) {
+        var span = document.createElement('span');
+        span.index = i;//用于记录
+        span.className = "point";
+        span.innerHTML = i;
+        content.appendChild(span);
+       //显示第index张图片,其他图都放到left=590的位置
+       liArr[i].style.left = width + "px";
+    };
+    point.insertBefore(content,point.children[0]);
+    //初始化
+    liArr[index].style.left = 0;
+    light();
+   
+    
+   
+    //1鼠标移入轮播图,显示箭头,移出轮播图,隐藏箭头
+    //2点击左箭头可以上一张
+    //3点击右箭头可以下一张
+    //4点击小圆点可以切换图片,同时小圆点高亮
+    point.onclick = function(e) {
+        var e = e||window.event;
+        var target = e.target||e.srcElement;
+        if(target.className.indexOf('point')>-1) {//小圆点
+            if(target.index>index) {//往右移动
+                liArr[target.index].style.left = width + "px";
+                animate(liArr[target.index],{left:0});//
+                animate(liArr[index],{left:-1*width});//
+                index = target.index;
+                light();
+            }
+            if(target.index<index) {//往左移   
+                liArr[target.index].style.left = -width + "px";
+                animate(liArr[target.index],{left:0});//从左边进来
+                animate(liArr[index],{left:width});//右边移出
+                index = target.index;
+                light();
+            }
+        }
+        if(target.className == "prev") {//前一张
+            var next = index - 1;
+            if(next<0) {
+                next  = liArr.length-1;
+            }
+            liArr[next].style.left = -width + "px";//在左边等着
+            animate(liArr[next],{left:0});//先移入
+            animate(liArr[index],{left:width});//右移出
+            index = next;
+            light();
+        }
+        if(target.className == "next") {//后一张
+            nextLi();
+        }
+    }
+    function nextLi() {
+        var next = index + 1;
+        if(next>liArr.length-1) {
+            next = 0;
+        }
+        liArr[next].style.left = width + "px";//右边等着
+        animate(liArr[next],{left:0});//右边进入
+        animate(liArr[index],{left:-1*width});//左移出
+        index = next;
+        light();
+    }
+    //5可以自动轮播
+    clearInterval(box.timer);
+    box.timer=setInterval(nextLi,2000);
+    //6鼠标移入停止轮播,鼠标移出继续自动轮播
+    box.onmouseover = function() {
+        animate(prev,{opacity:100});
+        animate(next,{opacity:100});
+        clearInterval(box.timer);
+    }
+    box.onmouseleave = function() {
+        animate(prev,{opacity:0});
+        animate(next,{opacity:0});
+        clearInterval(box.timer);
+        box.timer=setInterval(nextLi,2000);
+    }
+
+</script>
+</html>

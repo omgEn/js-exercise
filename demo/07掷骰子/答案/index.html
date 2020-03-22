@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>动态图片切换</title>
+        <meta charset="UTF-8">
+        <link href="css/style.css" rel="stylesheet">
+        
+    </head>
+    <body>
+        <!-- 游戏区域 -->
+        <div id="container">
+            <img src="images/dice_1.png" id="dice" alt="">
+        </div>
+        <div id="command">
+            <input type="button" onclick="shake()" value="摇一摇">
+        </div>
+    </body>
+</html>
+<script>
+    function $id(id){
+        return document.getElementById(id)
+    };
+    function rand(min,max){
+        //0-500
+        return Math.floor(Math.random()*(max-min+1)+min);       
+        
+    }
+    /*
+	     思路：
+	     	点击 按钮， 换动图，并且得到一个随机的时间  timer
+	     	timer时间后， 得到一个随机的图片（1--6），并显示到页面上
+     */
+    var flag = true;//值为true时 按钮可以点  
+    function shake(){
+    	if( flag ){
+    		flag = false;
+    		//换图
+    		$id("dice").src = "images/diceDynamic.gif";
+    		//获取 300---3000之间的随机值
+    		var timer = rand(200,5000);
+    		setTimeout(function(){
+    			var index = rand(1,6);
+    			$id("dice").src = "images/dice_"+index+".png";
+    			//换图结束后  将开关变量 设置为  true  让按钮继续点击执行
+    			flag = true;
+    		},timer)
+    	}
+    }
+</script>

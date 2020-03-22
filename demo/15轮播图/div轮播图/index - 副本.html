@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="css/index.css"/>
+  <!--   // <script src="js/public.js"></script> -->
+  <!--   // <script src="js/index.js"></script> -->
+    <style type="text/css">
+        #box {
+            width: 100px;
+            height: 100px;
+            background: red;
+            position: absolute;
+            top: 400px;
+            left: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="slider" id="slider">
+        <div class="slider-img">
+            <ul>
+                <li><a href="#"><img src="images/1.jpg" alt=""/></a></li>
+                <li><a href="#"><img src="images/2.jpg" alt=""/></a></li>
+                <li><a href="#"><img src="images/3.jpg" alt=""/></a></li>
+                <li><a href="#"><img src="images/4.jpg" alt=""/></a></li>
+                <li><a href="#"><img src="images/5.jpg" alt=""/></a></li>
+                <li><a href="#"><img src="images/6.jpg" alt=""/></a></li>
+            </ul>
+        </div>
+        <div class="slider-ctrl">
+            
+            <!-- 放动态生成的小圆点的 -->
+            <span class="prev" id="prev"></span>
+            <span class="next" id="next"></span>
+        </div>
+    </div>
+    <div id="box"></div>
+<script type="text/javascript">
+animate(box,{width:400});
+    //起始图片全部放在一个地方top0，left：0，没有写层级，后面的会覆盖前面的
+    //轮到谁显示的是，把除了它以外的往其他位置挪动
+    //鼠标放入轮播停止，鼠标移出轮播开始
+    //动态生成小圆点，点击也能轮播
+    //自动轮播
+    //点击左右箭头，下上一张，
+
+  
+    //步骤
+    //1 生成对应的小圆点，用span
+    var liArr = document.getElementsByTagName('li');//所有的图片容器
+    var sliderCtrl = document.querySelector('.slider-ctrl');
+    var width = document.getElementById('slider').offsetWidth;//一个li的宽度
+    var index = 0;//记录当前是哪个li显示
+
+    var content = document.createDocumentFragment();//暂时存放所有小圆点
+    for (var i = 0;i < liArr.length; i++) {//倒过来的意义
+        //为了后期知道当前span是第几个
+        //动态生成小圆点
+        var newSpan = document.createElement('span');
+        newSpan.index = i;//用于记录
+        newSpan.className = "slider-ctrl-con";
+        content.appendChild(newSpan);
+        //显示第index张图，启发图都放到left=310的位置（右边）
+        liArr[i].style.left =  width + "px";
+    };  
+    sliderCtrl.insertBefore(content,sliderCtrl.children[0]);//
+    //第一张图显示在小圆点
+    liArr[index].style.left = 0;
+    light();
+
+    //2 点击小圆点，点亮小圆点
+    sliderCtrl.onclick = function(e) {
+        var event = e || window.event;
+        var target = event.target||event.srcElement;
+        if (target.className.indexOf('slider-ctrl-con')>-1) {
+            //console.log("the circle click"); 
+            // for (var i = 0; i < liArr.length; i++) {
+            //     liArr[i].style.left = width + "px";
+            // };
+            // liArr[index].style.left = 0;
+            if (target.index>index) {
+                //如果显示在容器中的是2，要看6,6放到右边待命
+                liArr[target.index].style.left = width + 'px';
+                //先移动6 在移除2
+                animate(liArr[target.index],{left:0});
+                animate(liArr[index],{left:-1*width});//左边移出
+                //动画完在更新
+                index = target.index;//更新全局的index
+                light();
+            };
+            if (target.index<index) {
+                liArr[target.index].style.left = -width + 'px';
+                animate(liArr[target.index],{left:0});
+                animate(liArr[index],{left:width});//出右边
+                index = target.index;//更新全局的index
+                light();
+            };
+            
+        };
+        if (target.className == "prev") {
+            //console.log("prev click");
+            var next = index - 1;
+            if (next<0) {
+                next = liArr.length-1;
+            };
+            liArr[next].style.left = -width + "px";//左边等着
+            animate(liArr[next],{left:0});
+            animate(liArr[index],{left:width});
+            index = next;
+            light();
+        };
+        if (target.className == "next") {
+            //console.log("next click");
+            // var next = index + 1;
+            // if (next>liArr.length-1) {
+            //     next = 0;
+            // };
+            // liArr[next].style.left = width + "px";//右边等着
+            // animate(liArr.next,{left:0});//
+            // animate(liArr[index],{left:-1*width})//原来占位的走左边
+            // index = next;
+            // light();
+            nextLi();
+        };
+    }
+    //4自动轮播下一张
+    clearInterval(slider.timer);
+    slider.timer = setInterval(nextLi,2000);
+    //5 鼠标移入slider容器，停止轮播
+    slider.onmouseenter = function() {
+          clearInterval(slider.timer);
+    }
+    //6 鼠标移出slider容器，开始轮播
+    slider.onmouseleave = function() {
+        clearInterval(slider.timer);
+        slider.timer = setInterval(nextLi,2000);
+    }
+
+    //light方法用于点了第index个小圆点
+    function light() {
+        var spanArr = sliderCtrl.children;
+        //点亮第index个小圆点
+        for (var i = 0; i < spanArr.length-2; i++) {
+            spanArr[i].className = "slider-ctrl-con";
+        };
+        spanArr[index].className = "slider-ctrl-con current";
+        //spanArr[index].className += "current";
+    }
+
+    function nextLi() {
+         var next = index + 1;
+            if (next>liArr.length-1) {
+                next = 0;
+            };
+            liArr[next].style.left = width + "px";//右边等着
+            animate(liArr[next],{left:0});//
+            animate(liArr[index],{left:-1*width})//原来占位的走左边
+            index = next;
+            light();
+    }
+    //
+    //
+    //
+    //
+    //
+
+//缓动框架
+function animate(obj,json,fn){
+    clearInterval(obj.timer);
+    obj.timer = setInterval(function () {
+        //开闭原则
+        var flag = true;
+        for(var k in json){
+            //获取该元素的属性值，然后取整（主要就是去除px）
+            var leader = 0;
+            var target = 0;
+            //特殊的属性值，获取完毕后特殊处理。
+            //for循环中的json[k]代表的是(属性值)；那么k代表的是（属性名）
+            if( k =="opacity"){
+                //如果属性名为opactiy那么获取该属性，放大100倍后取整，方便以后IE678的处理
+                leader = Math.round(getStyle(obj,k)*100) || 100;
+                target = json[k]*100;
+            }else{
+                leader = parseInt(getStyle(obj,k)) || 0;
+                target = json[k];
+            }
+            var step = (target - leader)/10;
+            step = step>0?Math.ceil(step):Math.floor(step);
+            leader = leader+step;
+            //我们要给传递过来的属性赋值
+            if(k=="opacity"){
+                //如果属性为opacity,那么先把值缩小100倍，在赋值
+                obj.style.opacity = leader/100;
+                //第二部处理透明度
+                obj.style.filter = "alpha(opacity="+leader+")";
+            }else if(k == "z-index"){
+                //如果属性值为z-index,那么一次性赋值，不要缓动
+                obj.style.zIndex = json[k];
+            }else{
+                obj.style[k] = leader+"px";
+            }
+            console.log(1)
+            //不会的举手！（没到达，目标位置的说话，告诉程序不允许清除定时器）
+            //如果属性是透明度的时候，要把值先放大100倍然后四射五入取整后比较
+            if(k == "opacity"){
+                if(leader != Math.round(json[k]*100)){
+                    flag = false;
+                }
+            }else{
+                if(leader != json[k]){
+                    flag = false;
+                }
+            }
+        }
+        //所有属性都到到了目标位置，才清除定时器
+        if(flag){
+            clearInterval(obj.timer);
+            //清除定时器以后，在执行fn这个函数
+            if(fn){
+                fn();
+            }
+        }
+    },10);
+}
+//获得某个元素的属性值
+function getStyle(obj,index){
+    if(window.getComputedStyle){
+        return window.getComputedStyle(obj,null)[index];
+    }
+    return obj.currentStyle[index];
+}
+</script>
+</body>
+</html>

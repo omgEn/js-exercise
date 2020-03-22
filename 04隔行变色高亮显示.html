@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<ul>
+			<li>兄弟多个1</li>
+			<li>兄弟多个2</li>
+			<li>兄弟多个3</li>
+			<li>兄弟多个4</li>
+			<li>兄弟多个5</li>
+			<li>兄弟多个6</li>
+			<li>兄弟多个7</li>
+			<li>兄弟多个8</li>
+		</ul>
+	</body>
+</html>
+<script>
+	//页面加载后  li隔行变色   
+	window.onload = function(){
+		var list = document.getElementsByTagName("li");
+		for( var i = 0 ; i < list.length ; i ++ ){
+			//设置奇偶行颜色不同
+			if( i%2 ){
+				list[i].style.backgroundColor = "skyblue";
+			}else{
+				list[i].style.backgroundColor = "pink";
+			}
+			//鼠标移入某个li时  颜色高亮  鼠标离开时 颜色恢复
+			//通过循环为每一个li添加移入和移出事件
+			list[i].onmouseover = function(){
+				//事件内部 不能使用list[i]，因为触发事件时循环已经结束 i的值为 list.length值  
+				//改变当前移入行的颜色
+				//鼠标移入时  获取当前行的颜色值 
+				color = this.style.backgroundColor;
+				// this 指向当前操作的li元素 
+				this.style.backgroundColor = "red";
+			}
+			list[i].onmouseout = function(){
+				//恢复当前离开行的颜色
+				this.style.backgroundColor = color;
+			}
+		}
+	}
+</script>

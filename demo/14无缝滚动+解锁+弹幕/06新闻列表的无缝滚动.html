@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<style>
+		*{
+			margin:0;
+			padding:0;
+		}
+		#container{
+			height:170px;
+			width:500px;
+			background:teal;
+			margin:200px;
+			overflow:hidden;
+			position:relative;
+		}
+		#box{
+			position:absolute;
+			left:0;
+			top:0;
+		}
+		ul{
+			list-style:none;	
+		}
+	</style>
+	<body>
+		<div id="container">
+			<div id="box">
+				<ul>
+					<li>好好学习天天向上，困了累了想想mm，想想sg，加油11</li>
+					<li>好好学习天天向上，困了累了想想mm，想想sg，加油1</li>
+					<li>好好学习天天向上，困了...</li>
+					<li>好好学习天天向上，困了累了想想mm，想想sg，加油1</li>
+					<li>好好学习天天向上，困了累了想想mm，想想sg，加油1</li>
+					<li>好好学习天天向上，困了累了...</li>
+					<li>好好学习天天向上，困了累了想想mm，想想sg，加油1</li>
+					<li>好好学习天天向上，困了...</li>
+					<li>好好学习天天向上，困了累了想想mm，想想sg，加油1</li>
+					<li>好好学习天天向上，困了累了想想mm，想想sg，加油10000000</li>
+				</ul>
+				<ul>
+					<li>好好学习天天向上，困了累了想想mm，想想sg，加油11</li>
+					<li>好好学习天天向上，困了累了想想mm，想想sg，加油1</li>
+					<li>好好学习天天向上，困了...</li>
+					<li>好好学习天天向上，困了累了想想mm，想想sg，加油1</li>
+					<li>好好学习天天向上，困了累了想想mm，想想sg，加油1</li>
+					<li>好好学习天天向上，困了累了...</li>
+					<li>好好学习天天向上，困了累了想想mm，想想sg，加油1</li>
+					<li>好好学习天天向上，困了...</li>
+					<li>好好学习天天向上，困了累了想想mm，想想sg，加油1</li>
+					<li>好好学习天天向上，困了累了想想mm，想想sg，加油10000000</li>
+				</ul>
+			</div>
+		</div>
+	</body>
+</html>
+ 
+<script>
+	function $(id){
+		return document.getElementById(id)
+	} 
+	var timer = null;
+	var num = 0;
+	timer = setInterval(autoPlay,20);
+	function  autoPlay(){
+		num--;
+		$("box").style.top = num + "px";
+		if( num <= -$("box").children[0].offsetHeight ){
+			num = 0;
+		}
+	}
+	 
+	$("box").onmouseover = function(){
+		clearInterval( timer );
+	}
+	$("box").onmouseout = function(){
+		timer = setInterval(autoPlay,20);
+	}
+</script>

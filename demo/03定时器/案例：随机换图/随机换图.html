@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<img src="1m.jpg" alt="" id="img1"/>
+	</body>
+</html>
+<script>
+	var imgArr = ["1m.jpg","2m.jpg","3m.jpg","4m.jpg"];
+	var index = 0;//下标
+	var oImg = document.getElementById("img1");
+	setInterval(function(){
+		index++;
+		if( index == imgArr.length ){
+			index = 0;
+		}
+		oImg.src = imgArr[index];
+	},1000)
+</script>

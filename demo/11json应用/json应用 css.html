@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<style>
+		li{
+			list-style: none;
+			float: left;
+			text-align: center;
+		}
+	</style>
+	<body>
+		<ul id="u">
+			<!--<li><img src="a.jpg"/><p>小米</p></li>-->
+		</ul>
+	</body>
+</html>
+<script src="../public.js"></script>
+<script>
+	var jsonObj = {
+			"info":[
+						{"src":"hua_04.jpg","name":"小米"},
+						{"src":"hua_05.jpg","name":"大米"},
+						{"src":"hua_06.jpg","name":"高粱米"}
+					]
+		}
+	var str  = "";
+	for( var i = 0 ; i < jsonObj.info.length ; i++ ){
+		var item = jsonObj.info[i];//{"src":"hua_04.jpg","name":"小米"}
+		str += `<li><img src="${item.src}"/><p>${item.name}</p></li>`;
+	}
+	$id("u").innerHTML = str;
+	$id("u").onmouseover = function(e){
+		var e = e ||event;
+		var target = e.target || e.srcElement;
+		if( target.tagName == "IMG" ){
+			target.style.border = "1px solid red";
+			target.nextElementSibling.style.background = "pink";
+		}
+	}
+	$id("u").onmouseout = function(e){
+		var e = e ||event;
+		var target = e.target || e.srcElement;
+		if( target.tagName == "IMG" ){
+			target.style.border = "";
+			target.nextElementSibling.style.background = "";
+		}
+	}
+</script>

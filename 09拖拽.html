@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>01拖拽</title>
+	<style>
+		div{
+			width:100px;
+			height:100px;
+			position: absolute;			
+		}
+		#one{
+			background: skyblue;
+			top:0;
+			left:200px;
+		}
+		#two{
+			background: pink;
+			top:100px;
+			left:0;
+		}
+		#three{
+			background: purple;
+			top:200px;
+			left:400px;
+		}
+	</style>
+</head>
+<body>
+	<div id="one"></div>	
+	<div id="two"></div>	
+	<div id="three"></div>	
+	<script type="text/javascript">
+		//Drag这种事物,为他建立一个模型(构造函数,类)
+		class Drag{
+			constructor(id){
+				this.div = document.getElementById(id);
+			}
+			init(){
+				this.addMouseDownEvent()
+			}
+			addMouseDownEvent(){
+				this.div.onmousedown = (e)=>{
+					var startX = e.offsetX;
+					var startY = e.offsetY;
+					this.addMousemoveEvent(startX,startY);
+					this.addMouseUpEvent();
+				}	
+			}
+			addMousemoveEvent(x,y){
+				document.onmousemove = (e)=>{
+					var left = e.pageX - x;
+					var top = e.pageY - y;
+					//边界检测
+					if(left<0){
+						left=0;
+					}
+					if(left>window.innerWidth-this.div.offsetWidth){
+						left = window.innerWidth-this.div.offsetWidth
+					}
+					if(top<0){
+						top = 0;
+					}
+					if(top>window.innerHeight-this.div.offsetHeight){
+						top = window.innerHeight-this.div.offsetHeight
+					}
+					//给盒子定位
+					this.div.style.left = left+"px";
+					this.div.style.top = top + "px";
+					return false;
+				}
+			}
+			addMouseUpEvent(){
+				document.onmouseup = ()=>{
+					document.onmousemove = null;
+				}
+			}
+		}
+		var one = new Drag('one');
+		one.init()
+		var two = new Drag('two');
+		two.init()
+		var three = new Drag('three');
+		three.init()
+	</script>
+</body>
+</html>
