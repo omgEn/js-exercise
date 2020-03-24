@@ -39,8 +39,9 @@
     <div id="box"></div>
 <script type="text/javascript">
 animate(box,{width:400});
+    //逻辑分析：
     //起始图片全部放在一个地方top0，left：0，没有写层级，后面的会覆盖前面的
-    //轮到谁显示的是，把除了它以外的往其他位置挪动
+    //轮到谁显示谁，把除了它以外的往其他位置挪动
     //鼠标放入轮播停止，鼠标移出轮播开始
     //动态生成小圆点，点击也能轮播
     //自动轮播
@@ -62,7 +63,7 @@ animate(box,{width:400});
         newSpan.index = i;//用于记录
         newSpan.className = "slider-ctrl-con";
         content.appendChild(newSpan);
-        //显示第index张图，启发图都放到left=310的位置（右边）
+        //显示第index张图，其他图都放到left=310的位置（右边）
         liArr[i].style.left =  width + "px";
     };  
     sliderCtrl.insertBefore(content,sliderCtrl.children[0]);//
@@ -81,7 +82,7 @@ animate(box,{width:400});
             // };
             // liArr[index].style.left = 0;
             if (target.index>index) {
-                //如果显示在容器中的是2，要看6,6放到右边待命
+                //如果显示在容器中的是2，要到6,6放到右边待命
                 liArr[target.index].style.left = width + 'px';
                 //先移动6 在移除2
                 animate(liArr[target.index],{left:0});
@@ -96,8 +97,7 @@ animate(box,{width:400});
                 animate(liArr[index],{left:width});//出右边
                 index = target.index;//更新全局的index
                 light();
-            };
-            
+            };  
         };
         if (target.className == "prev") {
             //console.log("prev click");
@@ -160,11 +160,6 @@ animate(box,{width:400});
             index = next;
             light();
     }
-    //
-    //
-    //
-    //
-    //
 
 //缓动框架
 function animate(obj,json,fn){
@@ -202,7 +197,7 @@ function animate(obj,json,fn){
                 obj.style[k] = leader+"px";
             }
             console.log(1)
-            //不会的举手！（没到达，目标位置的说话，告诉程序不允许清除定时器）
+            //没到达，目标位置的说话，告诉程序不允许清除定时器
             //如果属性是透明度的时候，要把值先放大100倍然后四射五入取整后比较
             if(k == "opacity"){
                 if(leader != Math.round(json[k]*100)){
